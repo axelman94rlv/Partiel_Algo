@@ -146,6 +146,26 @@ def reconstruire_chemin(predecesseurs, depart, arrivee):
 
 
 if __name__ == "__main__":
+    # Définition unique du graphe pour les deux algorithmes
+    graphe = {
+        "A": [("B", 4), ("C", 2)],  
+        "B": [("C", 5), ("D", 10)], 
+        "C": [("E", 3)],            
+        "D": [("F", 11)],           
+        "E": [("D", 4)],           
+        "F": []                    
+    }
+    
+    # Coordonnées pour A* (définies une seule fois)
+    coordonnees = {
+        "A": (0, 0),
+        "B": (4, 0),
+        "C": (2, 2),
+        "D": (8, 3),
+        "E": (4, 4),
+        "F": (10, 5)
+    }
+    
     print("=" * 60)
     print("MENU - ALGORITHMES DE RECHERCHE DE CHEMIN")
     print("=" * 60)
@@ -155,61 +175,40 @@ if __name__ == "__main__":
     
     choix = input("Choisissez une option (1 ou 2) : ")
     
-    if choix == "1":
-        print("\n" + "=" * 60)
-        print("ALGORITHME DE DIJKSTRA - DISTANCE LA PLUS COURTE")
-        print("=" * 60 + "\n")
-        
-
-        graphe = {
-            "A": [("B", 4), ("C", 2)],  
-            "B": [("C", 5), ("D", 10)], 
-            "C": [("E", 3)],            
-            "D": [("F", 11)],           
-            "E": [("D", 4)],           
-            "F": []                    
-        }
-        
-        depart, arrivee = "A", "D"
-        chemin, distance = dijkstra(graphe, depart, arrivee)
-
-        if chemin is None:
-            print(f"\nAucun chemin trouvé entre {depart} et {arrivee}.")
-        else:
-            print(f"\nChemin le plus court de {depart} à {arrivee} : {' -> '.join(chemin)}")
-            print(f"Distance totale : {distance}")
+    print(f"\nNoeuds disponibles dans le graphe : {', '.join(sorted(graphe.keys()))}")
+    depart = input("Choisissez le noeud de départ : ").upper()
+    arrivee = input("Choisissez le noeud d'arrivée : ").upper()
     
-    elif choix == "2":
-        print("\n" + "=" * 60)
-        print("ALGORITHME A* - TRANSFORMATION")
-        print("=" * 60 + "\n")
-
-        graphe = {
-            "A": [("B", 4), ("C", 2)],
-            "B": [("C", 5), ("D", 10)],
-            "C": [("E", 3)],
-            "D": [("F", 11)],
-            "E": [("D", 4)],
-            "F": []
-        }
-
-        coordonnees = {
-            "A": (0, 0),
-            "B": (4, 0),
-            "C": (2, 2),
-            "D": (8, 3),
-            "E": (4, 4),
-            "F": (10, 5)
-        }
-        
-        depart, arrivee = "A", "F"
-        chemin, cout = a_star(graphe, coordonnees, depart, arrivee)
-        
-        if chemin is None:
-            print(f"\nAucun chemin trouvé entre {depart} et {arrivee}.")
-        else:
-            print(f"\nChemin trouvé par A* : {' -> '.join(chemin)}")
-            print(f"Coût total : {cout}")
-    
+    # Vérification unique de l'existence des noeuds
+    if depart not in graphe or arrivee not in graphe:
+        print(f"\nErreur : Les noeuds doivent être parmi {', '.join(sorted(graphe.keys()))}")
     else:
-        print("\nChoix invalide. Veuillez relancer le programme et choisir 1 ou 2.")
+        if choix == "1":
+            print("\n" + "=" * 60)
+            print("ALGORITHME DE DIJKSTRA - DISTANCE LA PLUS COURTE")
+            print("=" * 60 + "\n")
+            
+            chemin, distance = dijkstra(graphe, depart, arrivee)
+
+            if chemin is None:
+                print(f"\nAucun chemin trouvé entre {depart} et {arrivee}.")
+            else:
+                print(f"\nChemin le plus court de {depart} à {arrivee} : {' -> '.join(chemin)}")
+                print(f"Distance totale : {distance}")
+        
+        elif choix == "2":
+            print("\n" + "=" * 60)
+            print("ALGORITHME A* - TRANSFORMATION")
+            print("=" * 60 + "\n")
+            
+            chemin, cout = a_star(graphe, coordonnees, depart, arrivee)
+            
+            if chemin is None:
+                print(f"\nAucun chemin trouvé entre {depart} et {arrivee}.")
+            else:
+                print(f"\nChemin trouvé par A* : {' -> '.join(chemin)}")
+                print(f"Coût total : {cout}")
+        
+        else:
+            print("\nChoix invalide. Veuillez relancer le programme et choisir 1 ou 2.")
+            
