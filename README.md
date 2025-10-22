@@ -7,7 +7,7 @@ FROIS Fritzi & BARBELION Axel
 
 ```
 
-python djikstra.py
+python Partiel_Djikstra.py
 python bonus.py
 
 ```
